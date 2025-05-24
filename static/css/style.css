@@ -1,0 +1,3695 @@
+/* General Resets and Dark Theme Base */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #000000; /* Unified very dark background */
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; /* Allow content to flow from top */
+    min-height: 100vh;
+    padding: 0; /* No padding on body for a more seamless look */
+    box-sizing: border-box;
+}
+
+/* Main Chat Application Wrapper - now more of a layout guide than a visual container */
+.app-wrapper {
+    width: 100%;
+    max-width: 900px; /* Content width constraint */
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    background-color: transparent; /* Make wrapper transparent */
+    border-radius: 0;
+    box-shadow: none; /* No shadow for the wrapper */
+    overflow: hidden; /* Still needed for chat scroll */
+    padding: 0 20px; /* Padding for content within the viewport width */
+    box-sizing: border-box;
+}
+
+/* Header section with Greeting */
+.chat-header {
+    padding: 15px 20px;
+    background-color: #000000; /* Or your main header background */
+    border-bottom: 1px solid #333;
+    display: flex;
+    /* justify-content: space-between; */ /* Will adjust with new button */
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.4em;
+    color: #ffffff;
+    flex-grow: 1; /* Allow title to take space */
+    text-align: center; /* Optional: center title if toggle is on left and user info on right */
+}
+
+.chat-header .user-info {
+    /* Styles for user info remain, ensure it doesn't clash */
+}
+
+.chat-header h1 .greeting-text {
+    font-weight: 300;
+    color: #A0A0A0;
+}
+.user-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    font-size: 0.9em;
+    color: #B0B0B0; 
+    background-color: transparent; /* Transparent */
+    border-bottom: 1px solid #222; /* Subtle separator */
+    flex-shrink: 0;
+}
+
+.user-info-header #chatUserName {
+    font-weight: bold;
+    color: #EAEAEA;
+}
+
+.user-info-header button, .controls button, .feature-toggles button {
+    background-color: #282828; /* Dark buttons, less container-like */
+    color: #EAEAEA;
+    border: 1px solid #383838;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.user-info-header button:hover, .controls button:hover, .feature-toggles button:hover {
+    background-color: #333;
+    border-color: #444;
+}
+
+.feature-toggles button.active {
+    background-color: #4A5599;
+    color: #FFFFFF;
+    border-color: #5967B2;
+}
+
+/* Chat Box Styling */
+.chat-box {
+    flex-grow: 1;
+    padding: 20px 0; /* Padding for messages, no side padding as app-wrapper handles it */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased gap for no-bubble look */
+}
+
+/* Individual Message Styling - No more bubbles */
+.message {
+    display: flex; 
+    align-items: flex-start; /* Align items to the top */
+    gap: 12px; /* Space between avatar and message content */
+    padding: 12px 0;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInSlideUp 0.3s ease-out forwards;
+}
+
+.message-avatar {
+    flex-shrink: 0; /* Prevent avatar from shrinking */
+    width: 36px; /* Define avatar size */
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Circular shape */
+    overflow: hidden; /* Hide overflow for images */
+}
+
+.user-avatar-icon {
+    width: 100%;
+    height: 100%;
+    background-color: #007bff; /* Default user avatar background */
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.assistant-logo-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the area */
+}
+
+.message-main-content { /* New wrapper for Role and Content */
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.message .role {
+    min-width: 90px; 
+    font-weight: bold;
+    padding-right: 10px;
+    color: #888; 
+    flex-shrink: 0;
+    line-height: 1.6; /* Match message content line-height */
+}
+
+.message.user .role {
+    color: #6A75B9; 
+}
+
+.message.assistant .role {
+    color: #77AABB; 
+}
+
+.message .message-content {
+    flex-grow: 1;
+    line-height: 1.6;
+    word-wrap: break-word; /* Ensure long words break within the content */
+}
+
+/* Action Buttons for Assistant Messages */
+.message-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    /* Indent to align with message content if role has fixed width */
+    /* padding-left: 100px; /* Approx role width + padding, adjust as needed */
+    /* Or, make it full width and style buttons */
+    width: 100%; 
+    justify-content: flex-start; /* Or flex-end if you prefer right alignment */
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #888; /* Muted color for actions */
+    font-size: 0.9em; /* Smaller icons */
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.action-btn:hover {
+    color: #EAEAEA;
+    background-color: #2a2a2a; /* Subtle background on hover */
+}
+
+.action-btn.active {
+    color: #007bff; /* Or your preferred active color */
+}
+
+.action-btn i {
+    line-height: 1; /* Helps with icon alignment */
+}
+
+/* Stop Button during streaming */
+.stop-button {
+    background-color: rgba(220, 53, 69, 0.2); /* Subtle red background */
+    border: 1px solid rgba(220, 53, 69, 0.4);
+    color: #DC3545; /* Red text/icon color */
+    padding: 6px 12px; /* Slightly more padding */
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    margin-top: 8px; /* Space above the button */
+}
+
+.stop-button:hover {
+    background-color: rgba(220, 53, 69, 0.3);
+    border-color: rgba(220, 53, 69, 0.6);
+    color: #EAEAEA;
+}
+
+.stop-button .material-symbols-outlined {
+    font-size: 1.1em;
+}
+
+/* Hide the spinner when the stop button is visible */
+.message.assistant.streaming .spinner {
+    display: none;
+}
+
+/* Show the stop button when the assistant message is streaming */
+.message.assistant:not(.streaming) .stop-button {
+    display: none;
+}
+
+/* Copy button specific styling if needed (e.g., when copied) */
+.copy-code-btn.copied i,
+.copy-msg-btn.copied i {
+    color: #28a745; /* Green checkmark */
+}
+
+/* System messages styling override if needed */
+.message.system {
+    /* justify-content: center; */ /* flex-direction is column now */
+    align-items: center; /* Center system message text */
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 10px 0;
+}
+.message.system .role { 
+    display: none; 
+}
+.message.system .message-actions { /* System messages don't have actions */
+    display: none;
+}
+
+/* Code block styling (ensure it still looks good within the new message structure) */
+.message .code-block-container {
+    /* margin-left: 100px; */ /* If you want to indent code blocks relative to role, this needs to be under .message-content */
+    border-radius: 8px; /* Rounder corners for the whole container */
+    overflow: hidden; /* Ensures child elements adhere to border radius */
+    margin-top: 8px; /* Space above code block */
+    margin-bottom: 8px; /* Space below code block */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for the container */
+}
+
+.message-content .code-block-container {
+    margin-left: 0; /* Default, override if role indent is desired */
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(40, 40, 40, 0.75); /* Darker glassy header, matches input bar */
+    backdrop-filter: blur(5px);
+    padding: 6px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-block-header .language {
+    font-size: 0.85em;
+    color: #A0A0A0;
+    font-weight: 500;
+}
+
+.code-block-header .copy-code-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #B0B0B0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.code-block-header .copy-code-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #EAEAEA;
+}
+
+.code-block-header .copy-code-btn .material-symbols-outlined {
+    font-size: 1.1em; /* Adjust icon size within button */
+}
+
+.code-block-header .copy-code-btn.copied {
+    background-color: rgba(40, 167, 69, 0.5); /* Greenish, glassy copied state */
+    color: #FFFFFF;
+    border-color: rgba(40, 167, 69, 0.7);
+}
+
+.message pre {
+    margin: 0; /* Remove default pre margins */
+    padding: 12px; /* Padding inside the pre for the code itself */
+    background-color: #282c34; /* Default Atom One Dark background, can be slightly transparent if desired */
+    /* background-color: rgba(40, 44, 52, 0.9); */ /* Example of slightly transparent Atom One Dark */
+    border-radius: 0 0 8px 8px; /* Round bottom corners if header is separate */
+    overflow-x: auto; /* Allow horizontal scrolling for long code lines */
+}
+
+.message pre code.hljs {
+    font-family: 'Fira Code', 'Courier New', Courier, monospace; /* Suggest Fira Code for ligatures */
+    font-size: 0.9em;
+    line-height: 1.6;
+    /* highlight.js styles will apply here */
+}
+
+/* Streaming Cursor - Add this if you haven't */
+.streaming-cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+    background-color: #e0e0e0; /* Or your text color */
+    width: 8px; /* Adjust as needed */
+    height: 1em; /* Match line height */
+    margin-left: 2px;
+    vertical-align: baseline; /* Align with text */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Add the missing animation for messages */
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* User messages align content to one side if desired, but role stays left */
+/* This would require more complex flex setups or different HTML structure per message */
+/* For simplicity now, all messages are left-aligned text blocks */
+
+.message.user {
+    /* No specific alignment for the whole block if using side-by-side role and content */
+}
+
+.message.assistant {
+    align-items: flex-start;
+}
+.message.assistant .message-content {
+    /* background: #e3e8f7; */ /* Old light background */
+    /* color: #232946; */ /* Old dark text color */
+    border-radius: 18px 18px 18px 4px;
+    padding: 12px 18px;
+    margin: 6px 40px 6px 0;
+    max-width: 70%;
+    box-shadow: 0 2px 8px rgba(30,34,54,0.10);
+    
+    /* New Dark Theme Styles */
+    background: rgba(74, 144, 226, 0.1); /* Subtle blue-ish background */
+    color: #EAEAEA; /* Light text color */
+    border: 1px solid rgba(74, 144, 226, 0.2); /* Subtle border */
+}
+
+/* Chat Input Area Styling - Revised for Modern Input Bar */
+.chat-input-container-outer {
+    padding: 15px 0px 20px 0px;
+    border-top: 1px solid #ffffff;
+    background-color: transparent; /* Or #0F0F0F if you want a slight difference from body */
+    flex-shrink: 0;
+    margin-top: auto; /* Pushes to bottom of flex container */
+    display: flex; /* Use flex to arrange input bar and search button */
+    flex-direction: column; /* Stack them vertically */
+    align-items: center; /* Center the input bar and search button horizontally */
+}
+
+.chat-input-main-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: rgba(40, 40, 40, 0.75); /* Darker glassy background */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px; /* Very rounded bar */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 780px; /* Keep max width for the input bar */
+    box-sizing: border-box;
+}
+
+/* New container for the search button below the input bar */
+.input-area-footer {
+    display: flex;
+    justify-content: center; /* Center the search button */
+    padding-top: 12px; /* Space above the search button */
+    width: 100%;
+    max-width: 780px; /* Align with input bar max width */
+}
+
+/* Search Button Styles - Placed Below Input */
+#webSearchToggleBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px; /* Rounded corners */
+    background-color: #2a2a2a; /* Dark button background */
+    color: #EAEAEA;
+    border: 1px solid #383838;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+#webSearchToggleBtn:hover {
+    background-color: #333;
+    border-color: #444;
+}
+
+#webSearchToggleBtn.active {
+    background-color: #4A6EB5; /* Accent color when active */
+    color: #FFFFFF;
+    border-color: #4A6EB5;
+}
+
+#webSearchToggleBtn .material-symbols-outlined {
+    font-size: 1.1em; /* Adjust icon size */
+}
+
+/* Hide the old input bar toggles if they were used */
+.input-toggles {
+    display: none !important;
+}
+
+/* Specific styling for the main send button if it's different */
+.modern-input-bar .send-arrow-button {
+    background-color: #EAEAEA; /* Light background as per previous request */
+    color: #121212; /* Dark arrow */
+    font-size: 1.1em; /* Arrow size */
+}
+.modern-input-bar .send-arrow-button:hover {
+    background-color: #FFFFFF;
+}
+
+/* Prompt suggestions / Trending topics below the input bar */
+.prompt-suggestions {
+    display: flex;
+    justify-content: flex-start; /* Or center if preferred */
+    padding: 15px 10px 5px 10px; /* Padding around buttons */
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 10px; /* Align with input bar margin */
+}
+
+.prompt-suggestions button {
+    background-color: transparent; 
+    color: #77AADD; /* Link-like color for suggestions */
+    border: none; 
+    padding: 4px 0px; /* Minimal padding, looks like text links */
+    border-radius: 4px; 
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: color 0.3s, text-decoration 0.3s;
+    text-align: left;
+}
+.prompt-suggestions button:hover {
+    color: #99CCFF;
+    text-decoration: underline;
+}
+.prompt-suggestions button::before {
+    content: "↗ "; /* Trending up arrow icon */
+    color: #666; /* Muted icon color */
+    margin-right: 4px;
+}
+
+/* Hide old input area structures if they were missed */
+.feature-toggles { /* This assumes an old, separate .feature-toggles container might exist that needs hiding */
+    display: none;
+}
+
+/* Controls (New Conversation) */
+.controls {
+    padding: 15px 10px;
+    text-align: right;
+    border-top: 1px solid #222; 
+    background-color: transparent;
+    flex-shrink: 0;
+}
+
+/* Scrollbar styling */
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-box::-webkit-scrollbar-track {
+    background: transparent; 
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background: #333; 
+    border-radius: 3px;
+}
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+/* Spinner remains the same */
+.spinner {
+    border: 3px solid #383838; 
+    border-top: 3px solid #4A5599; 
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments for the no-container look */
+@media (max-width: 600px) {
+    .app-wrapper {
+        padding: 0 5px; /* Less padding on small screens */
+    }
+    .modern-input-bar {
+        margin: 0 5px;
+        padding: 6px 8px;
+        border-radius: 20px;
+        gap: 5px;
+    }
+    .modern-input-bar .icon-button {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1em;
+    }
+    .modern-input-bar input[type="text"] {
+        font-size: 0.9em;
+    }
+    .input-bar-toggles {
+        gap: 5px;
+    }
+    .input-bar-toggles .toggle-button {
+        padding: 5px 8px;
+        font-size: 0.75em;
+    }
+    .prompt-suggestions {
+        padding: 10px 5px 0px 5px;
+        margin: 0 5px;
+        justify-content: center; /* Center suggestions on small screens */
+    }
+     .prompt-suggestions button {
+        font-size: 0.8em;
+    }
+
+    /* Other adjustments from previous media query */
+    .chat-header {
+        padding: 20px 0 15px 0;
+    }
+    .chat-header h1 {
+        font-size: 1.7em;
+    }
+    .user-info-header {
+        padding: 10px 0;
+    }
+    .message .role {
+        min-width: 0; /* Allow role to shrink */
+        width: auto; /* Auto width for role label */
+        font-size: 0.8em;
+        padding-right: 8px;
+    }
+}
+
+/* Utility for hiding elements - ensure it's robust */
+.hidden {
+    display: none !important; /* Important to override other display properties if needed */
+}
+
+/* Thinking Dialogue Modal Styles */
+.thinking-dialogue-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.thinking-dialogue-overlay.visible { /* This is for the thinking dialogue, .visible class is used */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+.thinking-dialogue-content {
+    background-color: #1E1E1E; /* Dark background similar to input bar */
+    padding: 25px 30px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+    width: 90%;
+    max-width: 650px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.thinking-dialogue-overlay.visible .thinking-dialogue-content {
+    transform: scale(1);
+}
+
+.thinking-dialogue-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #EAEAEA;
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.close-dialogue-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #333;
+    color: #AAA;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2em;
+    line-height: 28px; /* Center the X */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.close-dialogue-button:hover {
+    background-color: #444;
+    color: #FFF;
+}
+
+.dialogue-section {
+    margin-bottom: 15px;
+}
+
+.dialogue-section h3 {
+    color: #A0A0A0;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+    padding-bottom: 5px;
+}
+
+.dialogue-text-area {
+    background-color: #151515; /* Slightly darker for text areas */
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #282828;
+    max-height: 25vh; /* Limit height and make scrollable */
+    overflow-y: auto;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #CFCFCF;
+}
+
+.dialogue-text-area p {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.dialogue-text-area p:last-child {
+    margin-bottom: 0;
+}
+
+/* Ensure scrollbar for dialogue text area is styled */
+.dialogue-text-area::-webkit-scrollbar {
+    width: 6px;
+}
+.dialogue-text-area::-webkit-scrollbar-track {
+    background: #1E1E1E;
+}
+.dialogue-text-area::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 3px;
+}
+.dialogue-text-area::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* General body and container setup */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex; /* Changed for overall layout */
+    height: 100vh;
+    overflow: hidden; /* Prevent body scroll, manage scroll in components */
+}
+
+.app-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar {
+    width: 260px;
+    /* background-color: #1A1A1A; */ /* Old solid background */
+    background-color: rgba(26, 26, 26, 0.75); /* Glassy background */
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    color: #EAEAEA;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: width 0.3s ease, padding 0.3s ease, opacity 0.3s ease, transform 0.3s ease; /* Added transform */
+    flex-shrink: 0;
+    opacity: 1;
+    border-radius: 0 12px 12px 0; /* Slightly round outer edge when visible */
+}
+
+.sidebar.collapsed {
+    width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    opacity: 0;
+    overflow: hidden;
+    border-right: none;
+    transform: translateX(-100%); /* Slide out */
+    border-radius: 0; /* No radius when collapsed */
+}
+
+.sidebar-header {
+    display: flex;
+    /* justify-content: space-between; */ /* Will be changed to flex-start */
+    justify-content: flex-start; /* Align items to the start for New Chat < layout */
+    align-items: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+    gap: 10px; /* Add gap between New Chat button and Collapse button */
+}
+
+#closeSidebarBtn {
+    background: none;
+    border: none;
+    color: #A0A0A0;
+    font-size: 1.4em; /* Match .main-header-toggle-btn or adjust as needed */
+    cursor: pointer;
+    padding: 5px; /* Minimal padding */
+    line-height: 1;
+    /* margin-left: auto; /* Removed to keep it next to New Chat */
+}
+#closeSidebarBtn:hover {
+    color: #FFFFFF;
+}
+
+/* Visibility for sidebar toggle buttons */
+/* By default, if sidebar is open, closeSidebarBtn is visible, openSidebarBtn is hidden */
+/* Handled by JS by setting display:none/flex, but CSS can define initial state */
+
+body:not(.sidebar-collapsed-app-state) #openSidebarBtn {
+    display: none;
+}
+body:not(.sidebar-collapsed-app-state) #closeSidebarBtn {
+    display: flex; /* Or block/inline-block as appropriate */
+}
+
+body.sidebar-collapsed-app-state #openSidebarBtn {
+    display: flex; /* Or block/inline-block */
+}
+body.sidebar-collapsed-app-state #closeSidebarBtn {
+    display: none;
+}
+
+/* Styles for the toggle button now in the main header */
+.main-header-toggle-btn { /* This is #openSidebarBtn */
+    background: none;
+    border: none;
+    color: #A0A0A0;
+    font-size: 1.4em;
+    cursor: pointer;
+    padding: 5px 10px 5px 0; /* More space on the right */
+    margin-right: 10px; /* Space between button and title */
+}
+.main-header-toggle-btn:hover {
+    color: #FFFFFF;
+}
+
+/* Remove old .toggle-sidebar-btn if it was styled specifically for being in sidebar */
+/* .toggle-sidebar-btn { ... old styles ... } */
+
+.conversation-history-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 5px; /* For scrollbar */
+}
+
+.conversation-history-list::-webkit-scrollbar {
+    width: 6px;
+}
+.conversation-history-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.conversation-history-list::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+.history-group-title {
+    font-size: 0.8em;
+    color: #888;
+    text-transform: uppercase;
+    margin: 15px 0 8px 0;
+    letter-spacing: 0.5px;
+}
+
+.history-item {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #C0C0C0;
+    padding: 10px 8px;
+    border-radius: 5px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.2s, color 0.2s;
+}
+.history-item:hover, .history-item.active {
+    background-color: #252525;
+    color: #FFFFFF;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between account settings and avatar */
+}
+
+.sidebar-action-btn,
+.sidebar-new-chat-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle glassy button */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #C0C0C0;
+    padding: 10px 12px; /* Adjusted padding */
+    border-radius: 10px; /* Rounder buttons */
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.sidebar-action-btn:hover,
+.sidebar-new-chat-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+}
+.sidebar-action-btn i, /* If still using i for some other icons */
+.sidebar-new-chat-btn i {
+    width: 18px;
+    text-align: center;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #1C1C1C; /* Main chat area background */
+    padding: 0; 
+    position: relative; /* For absolute positioning of openSidebarBtn */
+}
+
+.app-layout.sidebar-closed .main-content {
+    margin-left: 0;
+}
+
+/* Container for the entire chat view (header, messages, input) */
+.chat-view-container {
+    width: 100%;
+    max-width: 800px; /* Max width for the chat content itself */
+    height: 100%;
+    margin: 0 auto; /* Center the chat content */
+    display: flex;
+    flex-direction: column;
+    background-color: transparent; /* Transparent, as main-content has bg */
+}
+
+/* Main Chat Header - Make it minimal */
+.main-chat-header {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */ /* We only have one button effectively */
+    padding: 0; /* Minimal padding, button will be positioned */
+    flex-shrink: 0;
+    min-height: 0; /* Allow it to be very small */
+    position: relative; /* Changed from absolute to relative to contain the button flow */
+    z-index: 10; /* Ensure it's above chat content for button interaction */
+    height: 50px; /* Give some fixed height for the button to sit in */
+}
+
+#openSidebarBtn.main-header-toggle-btn {
+    position: absolute; /* Position it top-left */
+    top: 10px; 
+    left: 10px;
+    background-color: rgba(50, 50, 50, 0.5); /* Glassy */
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #A0A0A0;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%; /* Circular button */
+    z-index: 1001; /* Above sidebar potentially */
+}
+#openSidebarBtn.main-header-toggle-btn:hover {
+    color: #FFFFFF;
+    background-color: rgba(70, 70, 70, 0.7);
+}
+
+.chat-session-info, .top-right-actions { /* Hide these as avatar is moved */
+    display: none;
+}
+
+/* Chat Box Wrapper - should now take up almost full height */
+.chat-box-wrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px; /* Overall padding for messages */
+    /* Consider adding padding-top if openSidebarBtn overlaps content */
+    padding-top: 60px; /* Add padding to prevent overlap with absolutely positioned openSidebarBtn */
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Gap between messages */
+}
+
+/* Individual Messages - Optional glassy background */
+.message {
+    padding: 12px 15px;
+    border-radius: 12px; /* Rounder messages */
+    max-width: 100%;
+    /* background-color: rgba(255, 255, 255, 0.03); /* Very subtle glassy bg for messages */
+    /* border: 1px solid rgba(255, 255, 255, 0.05); */
+    display: flex; 
+    flex-direction: column;
+    align-items: flex-start; 
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInSlideUp 0.3s ease-out forwards;
+    position: relative; /* For potential absolute elements within message */
+}
+
+/* If making messages glassy, ensure content is legible */
+.message .role {
+    /* ... existing role styles ... */
+    margin-bottom: 4px; /* Add some space below role */
+}
+
+.message .message-content {
+    /* ... existing content styles ... */
+}
+
+/* Chat Input Area - Glassy and Rounder */
+.chat-input-area-container {
+    padding: 10px 15px 15px 15px; /* Adjusted padding */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-input-area.modern-input-style {
+    display: flex;
+    align-items: center; /* Align items if textarea is multi-line */
+    gap: 10px; /* Increased gap */
+    padding: 10px;
+    background-color: rgba(40, 40, 40, 0.75); /* Darker glassy background for input */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px; /* Rounder input bar */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 780px; /* Max width for the input bar */
+    box-sizing: border-box;
+}
+
+.chat-input-area textarea#userInput {
+    width: 100%;
+    padding: 12px 10px; /* More padding */
+    border: none;
+    background-color: transparent; /* Fully transparent within glassy bar */
+    color: #e0e0e0;
+    resize: none;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.5;
+    max-height: 150px;
+    min-height: 24px; /* Base height */
+    overflow-y: auto;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 12px; /* Round textarea corners slightly if it ever gets a bg */
+}
+
+.input-toggles {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.input-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: #2a2a2a;
+    color: #EAEAEA;
+    border: 1px solid #383838;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.input-toggle-btn:hover {
+    background-color: #333;
+    border-color: #444;
+}
+
+.input-toggle-btn.active { 
+    background-color: #4A5599;
+    color: #FFFFFF;
+    border-color: #5967B2;
+}
+
+.chat-input-area .control-button {
+    background: none; /* Make them purely iconic if desired or slightly glassy */
+    /* background-color: rgba(255, 255, 255, 0.05); */
+    border: none;
+    /* border: 1px solid rgba(255, 255, 255, 0.1); */
+    color: #A0A0A0;
+    font-size: 1.2em; /* Adjusted icon size for Material Symbols */
+    padding: 8px;
+    border-radius: 50%; /* Circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: color 0.2s, background-color 0.2s;
+}
+.chat-input-area .control-button:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Modal Styling - Glassy and Rounder */
+.modal-overlay { /* This is the base for Account Settings Modal */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Handles fade-out */
+}
+
+/* Account Settings Modal - Visible State (when .hidden is NOT present) */
+.modal-overlay:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s linear 0s; /* Handles fade-in */
+}
+
+.modal-content {
+    /* background-color: #1E1E1E; */ /* Old solid background */
+    background-color: rgba(30, 30, 30, 0.85); /* Dark glassy modal */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px 35px; /* Increased padding */
+    border-radius: 16px; /* Rounder modal */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    width: 90%;
+    max-width: 550px; /* Slightly narrower for settings */
+    /* ... rest of modal styles ... */
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.1);
+    color: #AAA;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2em; /* Ensure icon fits */
+    line-height: 32px; 
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex; /* For centering icon */
+    align-items: center;
+    justify-content: center;
+}
+.modal-close-btn:hover {
+    background-color: rgba(255,255,255,0.2);
+    color: #FFF;
+}
+
+/* General button styling for modal if not covered by .sidebar-action-btn */
+.modal-content .btn-danger,
+.modal-content .btn-logout {
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 0.95em;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.modal-content .btn-danger:hover {
+    background-color: rgba(220, 53, 69, 0.5); /* Glassy danger */
+    border-color: rgba(220, 53, 69, 0.7);
+    color: white;
+}
+.modal-content .btn-logout:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Adjust message action buttons for roundness */
+.message-actions .action-btn {
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 8px; /* Rounder */
+    padding: 6px; /* Adjust padding for new icon size */
+}
+.message-actions .action-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Style for the new user avatar area in sidebar footer */
+.user-avatar-container {
+    display: flex;
+    align-items: center;
+    padding: 5px 8px; /* Padding around avatar and name */
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+#sidebarUserAvatar.user-avatar { /* Re-style or ensure consistency */
+    width: 36px;
+    height: 36px;
+    background-color: #007bff; /* Or a gradient */
+    color: white;
+    border-radius: 50%; /* Keep avatar circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 1em;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+#userNameSidebar {
+    font-size: 0.9em;
+    color: #EAEAEA;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Web Search Status Indicator below input bar */
+.web-search-status-indicator {
+    display: flex; /* Use flex to align icon and text */
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    background-color: #2a2a2a; /* Dark background, similar to a status bar */
+    color: #c0c0c0; /* Light grey text */
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin-top: 10px; /* Space above this indicator */
+    font-size: 0.85em;
+    width: auto; /* Fit content */
+    max-width: 760px; /* Align with input bar max-width if needed */
+    margin-left: auto;
+    margin-right: auto;
+    transition: opacity 0.3s ease;
+}
+
+.web-search-status-indicator.hidden {
+    opacity: 0;
+    display: none; /* Use display none to prevent layout shifts if preferred, or just opacity for fade */
+}
+
+.web-search-status-indicator i {
+    font-size: 0.9em; /* Slightly smaller icon */
+}
+
+/* General style for Material Symbols if needed */
+.material-symbols-outlined {
+  vertical-align: middle; /* Adjust as needed */
+  font-size: inherit; /* Make icon size inherit from button/parent font-size */
+}
+
+/* Adjust action buttons in messages if they use icons */
+.action-btn .material-symbols-outlined {
+    font-size: 1.1em; /* Slightly larger for action icons if desired */
+}
+
+.input-toggle-btn .material-symbols-outlined {
+    font-size: 1.2em; /* Adjust for icons in input toggles */
+}
+
+.control-button .material-symbols-outlined {
+    font-size: 1.3em; /* Adjust for icons in control buttons like send/mic */
+}
+
+.sidebar-new-chat-btn .material-symbols-outlined,
+.sidebar-action-btn .material-symbols-outlined {
+    margin-right: 8px; /* Space between icon and text in sidebar buttons */
+    font-size: 1.2em;
+}
+
+#accountSettingsBtn .material-symbols-outlined {
+    /* Specific adjustments for account settings button icon if needed */
+}
+
+/* Settings Modal - Theme and Custom Instructions Sections */
+.settings-section h3 {
+    color: #E0E0E0;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.theme-options {
+    display: flex;
+    gap: 20px; /* Spacing between theme choices */
+    flex-wrap: wrap;
+}
+
+.theme-options label {
+    display: flex;
+    flex-direction: column; /* Stack name and preview vertically */
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.theme-options input[type="radio"] {
+    display: none; /* Hide actual radio button */
+}
+
+.theme-options .theme-name {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    color: #C0C0C0;
+}
+
+.theme-options .theme-preview {
+    width: 80px;
+    height: 50px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex; /* For potential internal structure */
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-options .dark-preview {
+    background-color: #1C1C1C; /* Matches main dark bg */
+    /* Can add small colored circles to represent accent colors */
+}
+
+.theme-options .light-preview {
+    background-color: #F0F0F0; /* Example light bg */
+}
+
+.theme-options input[type="radio"]:checked + .theme-name + .theme-preview {
+    /* No direct style change needed on preview, parent label gets border */
+}
+
+.theme-options label:has(input[type="radio"]:checked) {
+    border-color: #007bff; /* Highlight selected theme */
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.theme-options label:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.custom-instructions-settings .instructions-note {
+    font-size: 0.85em;
+    color: #A0A0A0;
+    margin-bottom: 10px;
+}
+
+.custom-instructions-settings textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #E0E0E0;
+    font-family: inherit;
+    font-size: 0.9em;
+    resize: vertical;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.custom-instructions-settings .btn-save-settings {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9em;
+}
+
+.custom-instructions-settings .btn-save-settings:hover {
+    background-color: #0056b3;
+}
+
+/* --- Basic Light Theme --- */
+body.theme-light {
+    background-color: #F0F0F0; /* Light background for the body */
+    color: #333333; /* Darker text for readability */
+}
+
+body.theme-light .sidebar {
+    background-color: rgba(225, 225, 225, 0.85); /* Light glassy sidebar */
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333333;
+}
+
+body.theme-light .sidebar-action-btn,
+body.theme-light .sidebar-new-chat-btn {
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #444444;
+}
+body.theme-light .sidebar-action-btn:hover,
+body.theme-light .sidebar-new-chat-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #111111;
+}
+body.theme-light .history-item {
+    color: #555555;
+}
+body.theme-light .history-item:hover,
+body.theme-light .history-item.active {
+    background-color: #D8D8D8;
+    color: #111111;
+}
+body.theme-light #sidebarUserAvatar.user-avatar {
+    background-color: #007bff; /* Keep avatar color or adapt */
+    color: white;
+}
+body.theme-light #userNameSidebar {
+    color: #333333;
+}
+
+body.theme-light .main-content {
+    background-color: #E4E4E4; /* Light main chat area background */
+}
+
+body.theme-light #openSidebarBtn.main-header-toggle-btn {
+    background-color: rgba(200, 200, 200, 0.5); /* Light glassy button */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #555555;
+}
+body.theme-light #openSidebarBtn.main-header-toggle-btn:hover {
+    color: #111111;
+    background-color: rgba(180, 180, 180, 0.7);
+}
+
+body.theme-light .message .role {
+    color: #555; /* Adjusted role color for light theme */
+}
+body.theme-light .message.user .role { color: #0056b3; }
+body.theme-light .message.assistant .role { color: #1a7a7a; }
+
+body.theme-light .chat-input-area.modern-input-style {
+    background-color: rgba(220, 220, 220, 0.85); /* Light glassy input */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .chat-input-area textarea#userInput {
+    color: #222222;
+}
+body.theme-light .chat-input-area .control-button {
+    color: #555555;
+}
+body.theme-light .chat-input-area .control-button:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .input-toggle-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #666666;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .input-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #333333;
+}
+body.theme-light .input-toggle-btn.active {
+    background-color: rgba(0, 123, 255, 0.6);
+    color: white;
+    border-color: rgba(0, 123, 255, 0.7);
+}
+
+/* Light theme for code blocks */
+body.theme-light .code-block-header {
+    background-color: rgba(220, 220, 220, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .code-block-header .language { color: #555; }
+body.theme-light .code-block-header .copy-code-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #666;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .code-block-header .copy-code-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+body.theme-light .message pre {
+    /* For light theme, you might want a different highlight.js theme or adjust atom-one-dark */
+    /* Atom one light: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css */
+    /* For now, keeping atom-one-dark but overriding its direct background if needed */
+    background-color: #FAFAFA; /* A light background for code */
+    border-top: 1px solid rgba(0,0,0,0.1); /* if header is different */
+}
+/* NOTE: To properly theme hljs, you'd typically switch the theme stylesheet or have very comprehensive overrides. */
+/* This basic override for pre background is a start. */
+
+body.theme-light .modal-content {
+    background-color: rgba(240, 240, 240, 0.9); /* Light glassy modal */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333333;
+}
+body.theme-light .modal-close-btn {
+    background: rgba(0,0,0,0.1);
+    color: #777;
+}
+body.theme-light .modal-close-btn:hover {
+    background: rgba(0,0,0,0.2);
+    color: #111;
+}
+body.theme-light .settings-section h3 { color: #333; border-bottom-color: rgba(0,0,0,0.1); }
+body.theme-light .theme-options label:has(input[type="radio"]:checked) {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+body.theme-light .theme-options .theme-name { color: #555; }
+body.theme-light .custom-instructions-settings textarea {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #333;
+}
+
+/* Adjust message action buttons for roundness moved earlier, no need for placeholder here */
+
+/* New Chat Input Bar Styling (Image Inspired) */
+.chat-input-main-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: rgba(40, 40, 40, 0.75); /* Darker glassy background */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px; /* Very rounded bar */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 780px; /* Keep max width for the input bar */
+    box-sizing: border-box;
+}
+
+.chat-input-main-bar textarea#userInput {
+    flex-grow: 1;
+    background-color: transparent;
+    color: #e0e0e0;
+    border: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.5;
+    padding: 8px 0; /* Minimal vertical padding, bar has its own */
+    max-height: 120px; /* Adjust as needed */
+    min-height: 24px; /* Base height for single line */
+    overflow-y: auto;
+    outline: none;
+}
+
+.chat-bar-btn {
+    background: none;
+    border: none;
+    color: #A0A0A0;
+    font-size: 1.3em; /* Icon size */
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.chat-bar-btn:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-input-secondary-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-top: 1px solid #222;
+    margin-top: 8px;
+}
+
+.chat-input-secondary-controls .input-toggles {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-input-secondary-controls .input-toggle-btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+.input-area-footer-note {
+    font-size: 0.75em; /* Smaller text for the note */
+    color: #888888;
+    text-align: center;
+    padding-top: 5px; /* Space above the note */
+    width: 100%;
+    max-width: 780px;
+}
+
+/* Light theme adjustments for new input bar */
+body.theme-light .chat-input-main-bar {
+    background-color: rgba(220, 220, 220, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .chat-input-main-bar textarea#userInput {
+    color: #222222;
+}
+body.theme-light .chat-bar-btn {
+    color: #555555;
+}
+body.theme-light .chat-bar-btn:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .input-area-footer-note {
+    color: #666666;
+}
+
+/* Hide the old input bar structure if any CSS for it remains problematic */
+.chat-input-area.modern-input-style {
+    display: none !important; 
+}
+
+/* REMOVING DUPLICATE STYLES FOR: .chat-input-area textarea#userInput */
+
+.input-toggles {
+    display: flex;
+    gap: 8px; /* Gap between toggles */
+    padding: 0; /* Remove extra padding, rely on parent */
+    flex-wrap: wrap;
+}
+
+/* Table Styling */
+.table-container {
+    margin: 1rem 0;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95em;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.message-table th,
+.message-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-table th {
+    background: rgba(74, 144, 226, 0.1);
+    font-weight: 600;
+    color: #4A90E2;
+    white-space: nowrap;
+}
+
+.message-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.message-table tr:hover {
+    background: rgba(74, 144, 226, 0.05);
+}
+
+/* Code Block Styles */
+.code-block-container {
+    position: relative;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background: #1E1E2E;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(74, 144, 226, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-block-header .language {
+    font-size: 0.9em;
+    color: #4A90E2;
+    font-weight: 500;
+}
+
+.code-block-header .copy-code-btn {
+    background: transparent;
+    border: none;
+    color: #4A90E2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.code-block-header .copy-code-btn:hover {
+    background: rgba(74, 144, 226, 0.2);
+}
+
+.message pre {
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #E0E0E0;
+}
+
+.message pre code.hljs {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Search Integration Styles */
+.search-integration {
+    position: relative;
+    margin: 1rem 0;
+    padding: 12px;
+    background: rgba(74, 144, 226, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.search-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #4A90E2;
+    font-size: 0.9em;
+}
+
+.search-status .material-symbols-outlined {
+    font-size: 1.2em;
+}
+
+.search-results {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-result-item {
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.search-result-item h4 {
+    margin: 0 0 4px 0;
+    color: #4A90E2;
+    font-size: 0.95em;
+}
+
+.search-result-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #E0E0E0;
+}
+
+/* Light Theme Adjustments */
+body.theme-light .table-container {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.theme-light .message-table {
+    background: #FFFFFF;
+}
+
+body.theme-light .message-table th,
+body.theme-light .message-table td {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .message-table th {
+    background-color: rgba(74, 144, 226, 0.1);
+    color: #2C5282;
+}
+
+body.theme-light .message-table tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.theme-light .message-table tr:hover {
+    background-color: rgba(74, 144, 226, 0.05);
+}
+
+body.theme-light .code-block-container {
+    background: #F8F9FA;
+}
+
+body.theme-light .code-block-header {
+    background: rgba(74, 144, 226, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .message pre {
+    color: #2D3748;
+}
+
+body.theme-light .search-integration {
+    background-color: rgba(74, 144, 226, 0.05);
+    border-color: rgba(74, 144, 226, 0.2);
+}
+
+body.theme-light .search-result-item {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.theme-light .search-result-item h4 {
+    color: #2C5282;
+}
+
+body.theme-light .search-result-item p {
+    color: #4A5568;
+}
+
+/* Welcome Message */
+.welcome-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 40px auto;
+}
+
+.welcome-message h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+    color: #2f00ff;
+}
+
+.welcome-message p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* Light theme welcome message */
+body.theme-light .welcome-message {
+    color: #ffffff;
+}
+
+body.theme-light .welcome-message h2 {
+    color: #007BFF;
+}
+
+/* Scrollbar Styling */
+.chat-messages {
+    overflow-x: hidden;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Code Block Scrollbar */
+.code-block-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(40, 40, 40, 0.5);
+}
+
+.code-block-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.code-block-container::-webkit-scrollbar-track {
+    background: rgba(40, 40, 40, 0.5);
+    border-radius: 4px;
+}
+
+.code-block-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Light theme scrollbars */
+body.theme-light .chat-messages {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+body.theme-light .chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+body.theme-light .code-block-container {
+    scrollbar-color: rgba(0, 0, 0, 0.2) rgba(220, 220, 220, 0.5);
+}
+
+body.theme-light .code-block-container::-webkit-scrollbar-track {
+    background: rgba(220, 220, 220, 0.5);
+}
+
+body.theme-light .code-block-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Search Modal */
+.search-message {
+    text-align: left;
+    padding: 20px;
+}
+
+.search-disclaimer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(74, 85, 153, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.search-disclaimer .material-symbols-outlined {
+    color: #4A5599;
+    font-size: 24px;
+}
+
+.search-disclaimer p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #EAEAEA;
+}
+
+.search-features {
+    padding: 15px;
+    background-color: rgba(40, 40, 40, 0.3);
+    border-radius: 8px;
+}
+
+.search-features h3 {
+    color: #EAEAEA;
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+}
+
+.search-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-features li {
+    color: #A0A0A0;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-features li::before {
+    content: "→";
+    color: #4A5599;
+}
+
+/* Light theme adjustments */
+body.theme-light .search-disclaimer {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+body.theme-light .search-disclaimer .material-symbols-outlined {
+    color: #007BFF;
+}
+
+body.theme-light .search-disclaimer p {
+    color: #333333;
+}
+
+body.theme-light .search-features {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light .search-features h3 {
+    color: #333333;
+}
+
+body.theme-light .search-features li {
+    color: #555555;
+}
+
+body.theme-light .search-features li::before {
+    color: #007BFF;
+}
+
+.chat-input-container {
+    position: relative;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.chat-input-container.focused {
+    background: var(--bg-primary);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--bg-tertiary);
+    border-radius: 1rem;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.chat-input-wrapper.focused {
+    box-shadow: 0 0 0 2px var(--accent-color);
+    background: var(--bg-primary);
+}
+
+#userInput {
+    flex: 1;
+    min-height: 40px;
+    max-height: 200px;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+#userInput.animated-placeholder::placeholder {
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+#userInput.animated-placeholder:focus::placeholder {
+    opacity: 0.5;
+    transform: translateY(-2px);
+}
+
+#userInput.has-content::placeholder {
+    opacity: 0;
+}
+
+/* Send Button Styles */
+#sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+#sendButton:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+#sendButton.sending {
+    animation: sendPulse 0.3s ease;
+}
+
+#sendButton.hover {
+    background: var(--accent-color-hover);
+    transform: scale(1.1);
+}
+
+@keyframes sendPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+/* Typing Indicator */
+body.is-typing #sendButton {
+    opacity: 1;
+}
+
+/* Scrollbar Styles for Input */
+#userInput::-webkit-scrollbar {
+    width: 6px;
+}
+
+#userInput::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#userInput::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+
+#userInput::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .chat-input-container {
+        padding: 0.75rem;
+    }
+    
+    .chat-input-wrapper {
+        padding: 0.5rem;
+    }
+    
+    #userInput {
+        font-size: 0.95rem;
+        padding: 0.5rem;
+    }
+    
+    #sendButton {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Dark Mode Adjustments */
+.theme-dark .chat-input-wrapper {
+    background: var(--bg-tertiary-dark);
+}
+
+.theme-dark .chat-input-wrapper.focused {
+    background: var(--bg-primary-dark);
+}
+
+.theme-dark #userInput {
+    color: var(--text-primary-dark);
+}
+
+.theme-dark #userInput::placeholder {
+    color: var(--text-secondary-dark);
+}
+
+/* Animation for Input Focus */
+@keyframes inputFocus {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+    100% { transform: translateY(0); }
+}
+
+body.input-focused .chat-input-container {
+    animation: inputFocus 0.3s ease;
+}
+
+.chart-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.generated-chart {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+.chart-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+.generated-chart:not([src]) + .chart-loading {
+    display: block;
+}
+
+.generated-chart[src] + .chart-loading {
+    display: none;
+}
+
+body.theme-light .chart-container {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+body.theme-light .generated-chart {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light .chart-loading {
+    color: #6c757d;
+}
+
+/* Add basic styling for history item actions */
+.history-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.history-item {
+    flex-grow: 1;
+    /* Ensure history item button doesn't shrink */
+    flex-shrink: 0;
+    min-width: 0; /* Allow text ellipsis */
+}
+
+.history-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.history-action-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.9em;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.history-action-btn:hover {
+    color: #EAEAEA;
+    background-color: #2a2a2a;
+}
+
+.history-action-btn .material-symbols-outlined {
+    font-size: 1.1em;
+}
+
+/* Style for delete button to be red */
+.history-action-btn.delete-conv-btn {
+    color: #DC3545;
+}
+.history-action-btn.delete-conv-btn:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #EAEAEA;
+}
+
+/* Styles for Continue Button */
+.continue-button {
+    background-color: rgba(40, 167, 69, 0.2); /* Subtle green background */
+    border: 1px solid rgba(40, 167, 69, 0.4);
+    color: #28A745; /* Green text/icon color */
+    padding: 6px 12px; /* Consistent padding with stop button */
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    margin-top: 8px; /* Align with stop button spacing */
+}
+
+.continue-button:hover {
+    background-color: rgba(40, 167, 69, 0.3);
+    border-color: rgba(40, 167, 69, 0.6);
+    color: #EAEAEA;
+}
+
+.continue-button .material-symbols-outlined {
+    font-size: 1.1em;
+}
+
+/* Container for stream control buttons */
+.stream-controls {
+    display: flex;
+    gap: 8px; /* Space between stop and continue */
+    margin-top: 8px; /* Align with other action buttons */
+}
+
+/* Adjust light theme text color */
+body.theme-light {
+    background-color: #F0F0F0;
+    color: #222222; /* Slightly darker text for better contrast */
+}
+
+body.theme-light .sidebar {
+    background-color: rgba(225, 225, 225, 0.85); /* Light glassy sidebar */
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333333;
+}
+
+body.theme-light .sidebar-action-btn,
+body.theme-light .sidebar-new-chat-btn {
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #444444;
+}
+body.theme-light .sidebar-action-btn:hover,
+body.theme-light .sidebar-new-chat-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #111111;
+}
+body.theme-light .history-item {
+    color: #555555;
+}
+body.theme-light .history-item:hover,
+body.theme-light .history-item.active {
+    background-color: #D8D8D8;
+    color: #111111;
+}
+body.theme-light #sidebarUserAvatar.user-avatar {
+    background-color: #007bff; /* Keep avatar color or adapt */
+    color: white;
+}
+body.theme-light #userNameSidebar {
+    color: #333333;
+}
+
+body.theme-light .main-content {
+    background-color: #E4E4E4; /* Light main chat area background */
+}
+
+body.theme-light #openSidebarBtn.main-header-toggle-btn {
+    background-color: rgba(200, 200, 200, 0.5); /* Light glassy button */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #555555;
+}
+body.theme-light #openSidebarBtn.main-header-toggle-btn:hover {
+    color: #111111;
+    background-color: rgba(180, 180, 180, 0.7);
+}
+
+body.theme-light .message .role {
+    color: #555; /* Adjusted role color for light theme */
+}
+body.theme-light .message.user .role { color: #0056b3; }
+body.theme-light .message.assistant .role { color: #1a7a7a; }
+
+body.theme-light .chat-input-area.modern-input-style {
+    background-color: rgba(220, 220, 220, 0.85); /* Light glassy input */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .chat-input-area textarea#userInput {
+    color: #222222;
+}
+body.theme-light .chat-input-area .control-button {
+    color: #555555;
+}
+body.theme-light .chat-input-area .control-button:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .input-toggle-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #666666;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .input-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #333333;
+}
+body.theme-light .input-toggle-btn.active {
+    background-color: rgba(0, 123, 255, 0.6);
+    color: white;
+    border-color: rgba(0, 123, 255, 0.7);
+}
+
+/* Light theme for code blocks */
+body.theme-light .code-block-header {
+    background-color: rgba(220, 220, 220, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .code-block-header .language { color: #555; }
+body.theme-light .code-block-header .copy-code-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #666;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .code-block-header .copy-code-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+body.theme-light .message pre {
+    /* For light theme, you might want a different highlight.js theme or adjust atom-one-dark */
+    /* Atom one light: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css */
+    /* For now, keeping atom-one-dark but overriding its direct background if needed */
+    background-color: #FAFAFA; /* A light background for code */
+    border-top: 1px solid rgba(0,0,0,0.1); /* if header is different */
+}
+/* NOTE: To properly theme hljs, you'd typically switch the theme stylesheet or have very comprehensive overrides. */
+/* This basic override for pre background is a start. */
+
+body.theme-light .modal-content {
+    background-color: rgba(240, 240, 240, 0.9); /* Light glassy modal */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333333;
+}
+body.theme-light .modal-close-btn {
+    background: rgba(0,0,0,0.1);
+    color: #777;
+}
+body.theme-light .modal-close-btn:hover {
+    background: rgba(0,0,0,0.2);
+    color: #111;
+}
+body.theme-light .settings-section h3 { color: #333; border-bottom-color: rgba(0,0,0,0.1); }
+body.theme-light .theme-options label:has(input[type="radio"]:checked) {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+body.theme-light .theme-options .theme-name { color: #555; }
+body.theme-light .custom-instructions-settings textarea {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #333;
+}
+
+/* Adjust message action buttons for roundness moved earlier, no need for placeholder here */
+
+/* New Chat Input Bar Styling (Image Inspired) */
+.chat-input-main-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: rgba(40, 40, 40, 0.75); /* Darker glassy background */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px; /* Very rounded bar */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 780px; /* Keep max width for the input bar */
+    box-sizing: border-box;
+}
+
+.chat-input-main-bar textarea#userInput {
+    flex-grow: 1;
+    background-color: transparent;
+    color: #e0e0e0;
+    border: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.5;
+    padding: 8px 0; /* Minimal vertical padding, bar has its own */
+    max-height: 120px; /* Adjust as needed */
+    min-height: 24px; /* Base height for single line */
+    overflow-y: auto;
+    outline: none;
+}
+
+.chat-bar-btn {
+    background: none;
+    border: none;
+    color: #A0A0A0;
+    font-size: 1.3em; /* Icon size */
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.chat-bar-btn:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-input-secondary-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-top: 1px solid #222;
+    margin-top: 8px;
+}
+
+.chat-input-secondary-controls .input-toggles {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-input-secondary-controls .input-toggle-btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+.input-area-footer-note {
+    font-size: 0.75em; /* Smaller text for the note */
+    color: #888888;
+    text-align: center;
+    padding-top: 5px; /* Space above the note */
+    width: 100%;
+    max-width: 780px;
+}
+
+/* Light theme adjustments for new input bar */
+body.theme-light .chat-input-main-bar {
+    background-color: rgba(220, 220, 220, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .chat-input-main-bar textarea#userInput {
+    color: #222222;
+}
+body.theme-light .chat-bar-btn {
+    color: #555555;
+}
+body.theme-light .chat-bar-btn:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .input-area-footer-note {
+    color: #666666;
+}
+
+/* Hide the old input bar structure if any CSS for it remains problematic */
+.chat-input-area.modern-input-style {
+    display: none !important; 
+}
+
+/* REMOVING DUPLICATE STYLES FOR: .chat-input-area textarea#userInput */
+
+.input-toggles {
+    display: flex;
+    gap: 8px; /* Gap between toggles */
+    padding: 0; /* Remove extra padding, rely on parent */
+    flex-wrap: wrap;
+}
+
+/* Table Styling */
+.table-container {
+    margin: 1rem 0;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95em;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.message-table th,
+.message-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-table th {
+    background: rgba(74, 144, 226, 0.1);
+    font-weight: 600;
+    color: #4A90E2;
+    white-space: nowrap;
+}
+
+.message-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.message-table tr:hover {
+    background: rgba(74, 144, 226, 0.05);
+}
+
+/* Code Block Styles */
+.code-block-container {
+    position: relative;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background: #1E1E2E;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(74, 144, 226, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-block-header .language {
+    font-size: 0.9em;
+    color: #4A90E2;
+    font-weight: 500;
+}
+
+.code-block-header .copy-code-btn {
+    background: transparent;
+    border: none;
+    color: #4A90E2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.code-block-header .copy-code-btn:hover {
+    background: rgba(74, 144, 226, 0.2);
+}
+
+.message pre {
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #E0E0E0;
+}
+
+.message pre code.hljs {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Search Integration Styles */
+.search-integration {
+    position: relative;
+    margin: 1rem 0;
+    padding: 12px;
+    background: rgba(74, 144, 226, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.search-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #4A90E2;
+    font-size: 0.9em;
+}
+
+.search-status .material-symbols-outlined {
+    font-size: 1.2em;
+}
+
+.search-results {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-result-item {
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.search-result-item h4 {
+    margin: 0 0 4px 0;
+    color: #4A90E2;
+    font-size: 0.95em;
+}
+
+.search-result-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #E0E0E0;
+}
+
+/* Light Theme Adjustments */
+body.theme-light .table-container {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.theme-light .message-table {
+    background: #FFFFFF;
+}
+
+body.theme-light .message-table th,
+body.theme-light .message-table td {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .message-table th {
+    background-color: rgba(74, 144, 226, 0.1);
+    color: #2C5282;
+}
+
+body.theme-light .message-table tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.theme-light .message-table tr:hover {
+    background-color: rgba(74, 144, 226, 0.05);
+}
+
+body.theme-light .code-block-container {
+    background: #F8F9FA;
+}
+
+body.theme-light .code-block-header {
+    background: rgba(74, 144, 226, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .message pre {
+    color: #2D3748;
+}
+
+body.theme-light .search-integration {
+    background-color: rgba(74, 144, 226, 0.05);
+    border-color: rgba(74, 144, 226, 0.2);
+}
+
+body.theme-light .search-result-item {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.theme-light .search-result-item h4 {
+    color: #2C5282;
+}
+
+body.theme-light .search-result-item p {
+    color: #4A5568;
+}
+
+/* Welcome Message */
+.welcome-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 40px auto;
+}
+
+.welcome-message h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #4A5599;
+}
+
+.welcome-message p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* Light theme welcome message */
+body.theme-light .welcome-message {
+    color: #333333;
+}
+
+body.theme-light .welcome-message h2 {
+    color: #007BFF;
+}
+
+/* Scrollbar Styling */
+.chat-messages {
+    overflow-x: hidden;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Code Block Scrollbar */
+.code-block-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(40, 40, 40, 0.5);
+}
+
+.code-block-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.code-block-container::-webkit-scrollbar-track {
+    background: rgba(40, 40, 40, 0.5);
+    border-radius: 4px;
+}
+
+.code-block-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Light theme scrollbars */
+body.theme-light .chat-messages {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+body.theme-light .chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+body.theme-light .code-block-container {
+    scrollbar-color: rgba(0, 0, 0, 0.2) rgba(220, 220, 220, 0.5);
+}
+
+body.theme-light .code-block-container::-webkit-scrollbar-track {
+    background: rgba(220, 220, 220, 0.5);
+}
+
+body.theme-light .code-block-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Search Modal */
+.search-message {
+    text-align: left;
+    padding: 20px;
+}
+
+.search-disclaimer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(74, 85, 153, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.search-disclaimer .material-symbols-outlined {
+    color: #4A5599;
+    font-size: 24px;
+}
+
+.search-disclaimer p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #EAEAEA;
+}
+
+.search-features {
+    padding: 15px;
+    background-color: rgba(40, 40, 40, 0.3);
+    border-radius: 8px;
+}
+
+.search-features h3 {
+    color: #EAEAEA;
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+}
+
+.search-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-features li {
+    color: #A0A0A0;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-features li::before {
+    content: "→";
+    color: #4A5599;
+}
+
+/* Light theme adjustments */
+body.theme-light .search-disclaimer {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+body.theme-light .search-disclaimer .material-symbols-outlined {
+    color: #007BFF;
+}
+
+body.theme-light .search-disclaimer p {
+    color: #333333;
+}
+
+body.theme-light .search-features {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light .search-features h3 {
+    color: #333333;
+}
+
+body.theme-light .search-features li {
+    color: #555555;
+}
+
+body.theme-light .search-features li::before {
+    color: #007BFF;
+}
+
+.chat-input-container {
+    position: relative;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.chat-input-container.focused {
+    background: var(--bg-primary);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--bg-tertiary);
+    border-radius: 1rem;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.chat-input-wrapper.focused {
+    box-shadow: 0 0 0 2px var(--accent-color);
+    background: var(--bg-primary);
+}
+
+#userInput {
+    flex: 1;
+    min-height: 40px;
+    max-height: 200px;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+#userInput.animated-placeholder::placeholder {
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+#userInput.animated-placeholder:focus::placeholder {
+    opacity: 0.5;
+    transform: translateY(-2px);
+}
+
+#userInput.has-content::placeholder {
+    opacity: 0;
+}
+
+/* Send Button Styles */
+#sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+#sendButton:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+#sendButton.sending {
+    animation: sendPulse 0.3s ease;
+}
+
+#sendButton.hover {
+    background: var(--accent-color-hover);
+    transform: scale(1.1);
+}
+
+@keyframes sendPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+/* Typing Indicator */
+body.is-typing #sendButton {
+    opacity: 1;
+}
+
+/* Scrollbar Styles for Input */
+#userInput::-webkit-scrollbar {
+    width: 6px;
+}
+
+#userInput::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#userInput::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+
+#userInput::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .chat-input-container {
+        padding: 0.75rem;
+    }
+    
+    .chat-input-wrapper {
+        padding: 0.5rem;
+    }
+    
+    #userInput {
+        font-size: 0.95rem;
+        padding: 0.5rem;
+    }
+    
+    #sendButton {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Dark Mode Adjustments */
+.theme-dark .chat-input-wrapper {
+    background: var(--bg-tertiary-dark);
+}
+
+.theme-dark .chat-input-wrapper.focused {
+    background: var(--bg-primary-dark);
+}
+
+.theme-dark #userInput {
+    color: var(--text-primary-dark);
+}
+
+.theme-dark #userInput::placeholder {
+    color: var(--text-secondary-dark);
+}
+
+/* Animation for Input Focus */
+@keyframes inputFocus {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+    100% { transform: translateY(0); }
+}
+
+body.input-focused .chat-input-container {
+    animation: inputFocus 0.3s ease;
+}
+
+.chart-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.generated-chart {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+.chart-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+.generated-chart:not([src]) + .chart-loading {
+    display: block;
+}
+
+.generated-chart[src] + .chart-loading {
+    display: none;
+}
+
+body.theme-light .chart-container {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+body.theme-light .generated-chart {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light .chart-loading {
+    color: #6c757d;
+}
+
+/* Add basic styling for history item actions */
+.history-item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.history-item {
+    flex-grow: 1;
+    /* Ensure history item button doesn't shrink */
+    flex-shrink: 0;
+    min-width: 0; /* Allow text ellipsis */
+}
+
+.history-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.history-action-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.9em;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.history-action-btn:hover {
+    color: #EAEAEA;
+    background-color: #2a2a2a;
+}
+
+.history-action-btn .material-symbols-outlined {
+    font-size: 1.1em;
+}
+
+/* Style for delete button to be red */
+.history-action-btn.delete-conv-btn {
+    color: #DC3545;
+}
+.history-action-btn.delete-conv-btn:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #EAEAEA;
+}
+
+/* Styles for Continue Button */
+.continue-button {
+    background-color: rgba(40, 167, 69, 0.2); /* Subtle green background */
+    border: 1px solid rgba(40, 167, 69, 0.4);
+    color: #28A745; /* Green text/icon color */
+    padding: 6px 12px; /* Consistent padding with stop button */
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    margin-top: 8px; /* Align with stop button spacing */
+}
+
+.continue-button:hover {
+    background-color: rgba(40, 167, 69, 0.3);
+    border-color: rgba(40, 167, 69, 0.6);
+    color: #EAEAEA;
+}
+
+.continue-button .material-symbols-outlined {
+    font-size: 1.1em;
+}
+
+/* Container for stream control buttons */
+.stream-controls {
+    display: flex;
+    gap: 8px; /* Space between stop and continue */
+    margin-top: 8px; /* Align with other action buttons */
+}
+
+/* Adjust light theme text color */
+body.theme-light {
+    background-color: #F0F0F0;
+    color: #222222; /* Slightly darker text for better contrast */
+}
+
+body.theme-light .sidebar {
+    background-color: rgba(225, 225, 225, 0.85); /* Light glassy sidebar */
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333333;
+}
+
+body.theme-light .sidebar-action-btn,
+body.theme-light .sidebar-new-chat-btn {
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #444444;
+}
+body.theme-light .sidebar-action-btn:hover,
+body.theme-light .sidebar-new-chat-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #111111;
+}
+body.theme-light .history-item {
+    color: #555555;
+}
+body.theme-light .history-item:hover,
+body.theme-light .history-item.active {
+    background-color: #D8D8D8;
+    color: #111111;
+}
+body.theme-light #sidebarUserAvatar.user-avatar {
+    background-color: #007bff; /* Keep avatar color or adapt */
+    color: white;
+}
+body.theme-light #userNameSidebar {
+    color: #333333;
+}
+
+body.theme-light .main-content {
+    background-color: #E4E4E4; /* Light main chat area background */
+}
+
+body.theme-light #openSidebarBtn.main-header-toggle-btn {
+    background-color: rgba(200, 200, 200, 0.5); /* Light glassy button */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #555555;
+}
+body.theme-light #openSidebarBtn.main-header-toggle-btn:hover {
+    color: #111111;
+    background-color: rgba(180, 180, 180, 0.7);
+}
+
+body.theme-light .message .role {
+    color: #555; /* Adjusted role color for light theme */
+}
+body.theme-light .message.user .role { color: #0056b3; }
+body.theme-light .message.assistant .role { color: #1a7a7a; }
+
+body.theme-light .chat-input-area.modern-input-style {
+    background-color: rgba(220, 220, 220, 0.85); /* Light glassy input */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .chat-input-area textarea#userInput {
+    color: #222222;
+}
+body.theme-light .chat-input-area .control-button {
+    color: #555555;
+}
+body.theme-light .chat-input-area .control-button:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .input-toggle-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #666666;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .input-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #333333;
+}
+body.theme-light .input-toggle-btn.active {
+    background-color: rgba(0, 123, 255, 0.6);
+    color: white;
+    border-color: rgba(0, 123, 255, 0.7);
+}
+
+/* Light theme for code blocks */
+body.theme-light .code-block-header {
+    background-color: rgba(220, 220, 220, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .code-block-header .language { color: #555; }
+body.theme-light .code-block-header .copy-code-btn {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #666;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .code-block-header .copy-code-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+body.theme-light .message pre {
+    /* For light theme, you might want a different highlight.js theme or adjust atom-one-dark */
+    /* Atom one light: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css */
+    /* For now, keeping atom-one-dark but overriding its direct background if needed */
+    background-color: #FAFAFA; /* A light background for code */
+    border-top: 1px solid rgba(0,0,0,0.1); /* if header is different */
+}
+/* NOTE: To properly theme hljs, you'd typically switch the theme stylesheet or have very comprehensive overrides. */
+/* This basic override for pre background is a start. */
+
+body.theme-light .modal-content {
+    background-color: rgba(240, 240, 240, 0.9); /* Light glassy modal */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #333333;
+}
+body.theme-light .modal-close-btn {
+    background: rgba(0,0,0,0.1);
+    color: #777;
+}
+body.theme-light .modal-close-btn:hover {
+    background: rgba(0,0,0,0.2);
+    color: #111;
+}
+body.theme-light .settings-section h3 { color: #333; border-bottom-color: rgba(0,0,0,0.1); }
+body.theme-light .theme-options label:has(input[type="radio"]:checked) {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+body.theme-light .theme-options .theme-name { color: #555; }
+body.theme-light .custom-instructions-settings textarea {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #333;
+}
+
+/* Adjust message action buttons for roundness moved earlier, no need for placeholder here */
+
+/* New Chat Input Bar Styling (Image Inspired) */
+.chat-input-main-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: rgba(40, 40, 40, 0.75); /* Darker glassy background */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px; /* Very rounded bar */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 780px; /* Keep max width for the input bar */
+    box-sizing: border-box;
+}
+
+.chat-input-main-bar textarea#userInput {
+    flex-grow: 1;
+    background-color: transparent;
+    color: #e0e0e0;
+    border: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.5;
+    padding: 8px 0; /* Minimal vertical padding, bar has its own */
+    max-height: 120px; /* Adjust as needed */
+    min-height: 24px; /* Base height for single line */
+    overflow-y: auto;
+    outline: none;
+}
+
+.chat-bar-btn {
+    background: none;
+    border: none;
+    color: #A0A0A0;
+    font-size: 1.3em; /* Icon size */
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.chat-bar-btn:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-input-secondary-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-top: 1px solid #222;
+    margin-top: 8px;
+}
+
+.chat-input-secondary-controls .input-toggles {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-input-secondary-controls .input-toggle-btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
+.input-area-footer-note {
+    font-size: 0.75em; /* Smaller text for the note */
+    color: #888888;
+    text-align: center;
+    padding-top: 5px; /* Space above the note */
+    width: 100%;
+    max-width: 780px;
+}
+
+/* Light theme adjustments for new input bar */
+body.theme-light .chat-input-main-bar {
+    background-color: rgba(220, 220, 220, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.theme-light .chat-input-main-bar textarea#userInput {
+    color: #222222;
+}
+body.theme-light .chat-bar-btn {
+    color: #555555;
+}
+body.theme-light .chat-bar-btn:hover {
+    color: #111111;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .input-area-footer-note {
+    color: #666666;
+}
+
+/* Hide the old input bar structure if any CSS for it remains problematic */
+.chat-input-area.modern-input-style {
+    display: none !important; 
+}
+
+/* REMOVING DUPLICATE STYLES FOR: .chat-input-area textarea#userInput */
+
+.input-toggles {
+    display: flex;
+    gap: 8px; /* Gap between toggles */
+    padding: 0; /* Remove extra padding, rely on parent */
+    flex-wrap: wrap;
+}
+
+/* Table Styling */
+.table-container {
+    margin: 1rem 0;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95em;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.message-table th,
+.message-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-table th {
+    background: rgba(74, 144, 226, 0.1);
+    font-weight: 600;
+    color: #4A90E2;
+    white-space: nowrap;
+}
+
+.message-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.message-table tr:hover {
+    background: rgba(74, 144, 226, 0.05);
+}
+
+.thinking-indicator {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: rgba(200, 200, 200, 0.8);
+    font-size: 1rem;
+    padding: 10px 16px;
+    background: rgba(50, 50, 50, 0.2);
+    border-radius: 8px;
+    width: fit-content;
+    margin: 5px 0;
+}
+
+.thinking-indicator span {
+    margin-right: 2px;
+}
+
+.thinking-indicator .dot-1,
+.thinking-indicator .dot-2,
+.thinking-indicator .dot-3 {
+    animation: pulse 1.4s infinite;
+    font-weight: bold;
+    opacity: 0.5;
+    margin-left: 1px;
+}
+
+.thinking-indicator .dot-1 {
+    animation-delay: 0s;
+}
+
+.thinking-indicator .dot-2 {
+    animation-delay: 0.2s;
+}
+
+.thinking-indicator .dot-3 {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+/* Light theme support */
+body.theme-light .thinking-indicator {
+    color: rgba(60, 60, 60, 0.8);
+    background: rgba(230, 230, 230, 0.3);
+}
+
+/* Thinking indicator styling */
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  margin: 4px 0;
+  animation: fade-in 0.3s ease-out;
+}
+
+.thinking-indicator span {
+  font-weight: 500;
+}
+
+.thinking-indicator .dot-1,
+.thinking-indicator .dot-2,
+.thinking-indicator .dot-3 {
+  opacity: 0;
+  animation: dot-fade 1.4s infinite;
+  font-weight: bold;
+}
+
+.thinking-indicator .dot-2 {
+  animation-delay: 0.2s;
+}
+
+.thinking-indicator .dot-3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes dot-fade {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.theme-dark .thinking-indicator {
+  background-color: rgba(255, 255, 255, 0.1);
+}
